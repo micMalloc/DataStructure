@@ -76,6 +76,8 @@ int main (void)
 				freeAllNodes(head);
 				return 0;
 			}
+		default:
+			printf("Error : Invalid Value");
 		}
 	}
 
