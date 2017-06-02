@@ -35,7 +35,7 @@ int main (void)
 		printf("-------------------\n");
 		printf(" 1. Insert key\n");
 		printf(" 2. Delete key\n");
-		printf(" 3. Print List\n");
+		printf(" 3. Print Tree\n");
 		printf(" 4.    Exit\n");
 		printf("-------------------\n");
 		
@@ -110,6 +110,12 @@ int main (void)
 	return 0;
 }
 
+/*
+Description: Search and check if new key already exist or not
+Input: Key value and Root node's address
+Output: If There is no key that's same to new key, return NULL
+		Elese, return the node's address that has same key
+*/
 nodePtr Search (int key, nodePtr current)
 {
 	if (current != NULL)
@@ -123,6 +129,11 @@ nodePtr Search (int key, nodePtr current)
 	} return current;
 }
 
+/*
+Description: Find location that new node will be inserted and insert new node
+Input: Key value and The Address of variable that has the address of root node
+Output: None
+*/
 void Insert (int key, nodePtr* current)
 {
 	if ((*current) == NULL)
@@ -143,6 +154,11 @@ void Insert (int key, nodePtr* current)
 	}
 }
 
+/*
+Description: Create a node, initialize it and check if it is NULL or not, then return it
+Input: key value
+Output: New node's address
+*/
 nodePtr makeNode (int key)
 {
 	nodePtr newNode = (nodePtr)malloc(1 * sizeof(node));
@@ -160,6 +176,11 @@ nodePtr makeNode (int key)
 	return (newNode);
 }
 
+/*
+Description: Print all nodes in the tree by postorder
+Input: Root node's address
+Output: None
+*/
 void postorder (nodePtr current)
 {
 	if (current)
@@ -170,6 +191,11 @@ void postorder (nodePtr current)
 	}
 }
 
+/*
+Description: Print all nodes in the tree by inorder way
+Input: Root node's address
+Output: None
+*/
 void inorder (nodePtr current)
 {
 	if (current)
@@ -180,6 +206,11 @@ void inorder (nodePtr current)
 	}
 }
 
+/*
+Description: Print all nodes in the tree by preorder
+Input: Root node's address
+Output: None
+*/
 void preorder (nodePtr current)
 {
 	if (current)
@@ -190,6 +221,11 @@ void preorder (nodePtr current)
 	}
 }
 
+/*
+Description: Free All nodes in the Tree by using postorder visiting way
+Input: The Address of variable that has the address of root node
+Output: None
+*/
 void freeAllNodes (nodePtr* current)
 {
 	if ((*current))
