@@ -10,6 +10,8 @@ typedef struct NODE
 } node;
 typedef node* nodePtr;
 
+
+int checkChild (nodePtr);
 nodePtr Search (int, nodePtr);
 void Insert (int, nodePtr*);
 //int Delete (int);
@@ -20,14 +22,16 @@ void inorder (nodePtr);
 void preorder (nodePtr);
 void freeAllNodes (nodePtr*);
 
+nodePtr parent = NULL;
+
 int main (void)
 {
 	int menu, key;
 	nodePtr root = NULL;
-
-	printf("==================================\n");
-	printf("  Implementation of Linked List  \n");
-	printf("==================================\n");
+	
+	printf("=========================================\n");
+	printf("  Implementation of Binary Search Tree  \n");
+	printf("=========================================\n");
 	while (1)
 	{
 		printf("-------------------\n");
@@ -136,17 +140,14 @@ Output: None
 */
 void Insert (int key, nodePtr* current)
 {
-	if ((*current) == NULL)
+	if ((*current) == NULL){
 		(*current) = makeNode(key);
-	else if ((*current)->key > key)
-	{
+	} else if ((*current)->key > key) {
 		if ((*current)->leftChild)
 			Insert(key, &(*current)->leftChild);
 		else
 			(*current)->leftChild = makeNode(key);
-	}
-	else
-	{
+	} else {
 		if ((*current)->rightChild)
 			Insert(key, &(*current)->rightChild);
 		else
@@ -233,5 +234,6 @@ void freeAllNodes (nodePtr* current)
 		freeAllNodes(&(*current)->leftChild);
 		freeAllNodes(&(*current)->rightChild);
 		free((*current));
+		(*current) = NULL;
 	}
 }
