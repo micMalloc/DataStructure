@@ -10,11 +10,10 @@ typedef struct NODE
 } node;
 typedef node* nodePtr;
 
-
 int checkChild (nodePtr);
 nodePtr Search (int, nodePtr);
 void Insert (int, nodePtr*);
-//int Delete (int);
+void Delete (nodePtr*);
 nodePtr makeNode ();
 
 void postorder (nodePtr);
@@ -22,12 +21,11 @@ void inorder (nodePtr);
 void preorder (nodePtr);
 void freeAllNodes (nodePtr*);
 
-nodePtr parent = NULL;
-
 int main (void)
 {
 	int menu, key;
 	nodePtr root = NULL;
+	nodePtr target = NULL;
 	
 	printf("=========================================\n");
 	printf("  Implementation of Binary Search Tree  \n");
@@ -60,15 +58,15 @@ int main (void)
 			}
 		case 2:
 			{
-				/*(printf("Enter the key to be deleted\n");
+				printf("Enter the key to be deleted\n");
 				scanf("%d", &key);
 
-				if (Search(key, root)) {
-					printf("SUCCESS\n");
-				}
+				target = Search(key, root);
+				if (target)
+					Delete(&target);
 				else
 					printf("Not Found\n");
-				break;*/
+				break;
 			}
 		case 3:
 			{
@@ -113,6 +111,16 @@ int main (void)
 
 	return 0;
 }
+ 
+int checkChild (nodePtr current)
+{
+	if (current->leftChild && current->rightChild)
+		return 2;
+	else if (current->leftChild || current->rightChild)
+		return 1;
+	else
+		return 0;
+}
 
 /*
 Description: Search and check if new key already exist or not
@@ -152,6 +160,32 @@ void Insert (int key, nodePtr* current)
 			Insert(key, &(*current)->rightChild);
 		else
 			(*current)->rightChild = makeNode(key);
+	}
+}
+
+void Delete (nodePtr* current)
+{
+	if (checkChild((*current)) == 0)
+	{ /* Leaf - Node Just Delete It */
+		free((*current));
+		(*current) = NULL;
+	}
+	else if (checkChild((*current)) == 1)
+	{
+		if ((*current)->leftChild)
+		{
+			free((*current));
+			(*current) = (*current)->leftChild;
+		}
+		else if ((*current)->rightChild)
+		{
+			free((*current));
+			(*current) = (*current)->rightChild;
+		}
+	}
+	else
+	{
+
 	}
 }
 
