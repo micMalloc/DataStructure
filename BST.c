@@ -10,16 +10,19 @@ typedef struct NODE
 } node;
 typedef node* nodePtr;
 
+int setMenuTable ();
 int checkChild (nodePtr);
 nodePtr Search (int, nodePtr);
 void Insert (int, nodePtr*);
-void Delete (nodePtr*);
+void Delete (nodePtr);
 nodePtr makeNode ();
 
 void postorder (nodePtr);
 void inorder (nodePtr);
 void preorder (nodePtr);
 void freeAllNodes (nodePtr*);
+
+nodePtr parent;
 
 int main (void)
 {
@@ -32,28 +35,19 @@ int main (void)
 	printf("=========================================\n");
 	while (1)
 	{
-		printf("-------------------\n");
-		printf(" Select the number\n");
-		printf("-------------------\n");
-		printf(" 1. Insert key\n");
-		printf(" 2. Delete key\n");
-		printf(" 3. Print Tree\n");
-		printf(" 4.    Exit\n");
-		printf("-------------------\n");
-		
-		scanf("%d", &menu);
 
-		switch (menu)
+		switch (setMenuTable())
 		{
 		case 1:
 			{
 				printf("Enter a key to be inserted\n");
 				scanf("%d", &key);
-
+				/*
 				if (Search(key, root))
 					printf("Already exist\n");
 				else
-					Insert(key, &root);
+					Insert(key, root);*/
+				Insert(key, &root);
 				break;
 			}
 		case 2:
@@ -63,7 +57,7 @@ int main (void)
 
 				target = Search(key, root);
 				if (target)
-					Delete(&target);
+					Delete(Search(key, root));
 				else
 					printf("Not Found\n");
 				break;
@@ -112,6 +106,24 @@ int main (void)
 	return 0;
 }
  
+int setMenuTable ()
+{
+	int menu;
+
+	printf("-------------------\n");
+	printf(" Select the number\n");
+	printf("-------------------\n");
+	printf(" 1. Insert key\n");
+	printf(" 2. Delete key\n");
+	printf(" 3. Print Tree\n");
+	printf(" 4.    Exit\n");
+	printf("-------------------\n");
+
+	scanf("%d", &menu);
+
+	return menu;
+}
+
 int checkChild (nodePtr current)
 {
 	if (current->leftChild && current->rightChild)
@@ -135,9 +147,15 @@ nodePtr Search (int key, nodePtr current)
 		if (current->key == key)
 			return current;
 		else if (current->key > key)
+		{
+			parent = current;
 			return (Search(key, current->leftChild));
+		}
 		else
+		{
+			parent = current;
 			return (Search(key, current->rightChild));
+		}
 	} return current;
 }
 
@@ -146,6 +164,7 @@ Description: Find location that new node will be inserted and insert new node
 Input: Key value and The Address of variable that has the address of root node
 Output: None
 */
+/*
 void Insert (int key, nodePtr* current)
 {
 	if ((*current) == NULL){
@@ -161,26 +180,43 @@ void Insert (int key, nodePtr* current)
 		else
 			(*current)->rightChild = makeNode(key);
 	}
+}*/
+void Insert (int key, nodePtr *root)
+{
+	if (*root)
+	{
+		if (Search(key, *root) != NULL)
+			printf("Already exist\n");
+		else
+		{
+			if (parent->key > key)
+				parent->leftChild = makeNode(key);
+			else
+				parent->rightChild = makeNode(key);
+		}
+	}
+	else
+		*root = makeNode(key);
 }
 
-void Delete (nodePtr* current)
+void Delete (nodePtr current)
 {
-	if (checkChild((*current)) == 0)
+	if (checkChild(current) == 0)
 	{ /* Leaf - Node Just Delete It */
-		free((*current));
-		(*current) = NULL;
+		free(current);
+		current = NULL;
 	}
-	else if (checkChild((*current)) == 1)
+	else if (checkChild(current) == 1)
 	{
-		if ((*current)->leftChild)
+		if (current->leftChild)
 		{
-			free((*current));
-			(*current) = (*current)->leftChild;
+			free(current);
+			current = current->leftChild;
 		}
-		else if ((*current)->rightChild)
+		else if (current->rightChild)
 		{
-			free((*current));
-			(*current) = (*current)->rightChild;
+			free(current);
+			current = current->rightChild;
 		}
 	}
 	else
