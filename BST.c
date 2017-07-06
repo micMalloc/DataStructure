@@ -14,7 +14,8 @@ int setMenuTable ();
 int checkChild (nodePtr);
 nodePtr Search (int, nodePtr);
 void Insert (int, nodePtr*);
-void Delete (nodePtr);
+void Delete (int, nodePtr);
+void exchangeNode (nodePtr, nodePtr);
 nodePtr makeNode ();
 
 void postorder (nodePtr);
@@ -47,6 +48,7 @@ int main (void)
 					printf("Already exist\n");
 				else
 					Insert(key, root);*/
+				parent = NULL;
 				Insert(key, &root);
 				break;
 			}
@@ -55,9 +57,10 @@ int main (void)
 				printf("Enter the key to be deleted\n");
 				scanf("%d", &key);
 
+				parent = NULL;
 				target = Search(key, root);
 				if (target)
-					Delete(Search(key, root));
+					Delete(key, target);
 				else
 					printf("Not Found\n");
 				break;
@@ -199,30 +202,53 @@ void Insert (int key, nodePtr *root)
 		*root = makeNode(key);
 }
 
-void Delete (nodePtr current)
+void Delete (int key, nodePtr current)
 {
+	nodePtr sub = NULL;
+
 	if (checkChild(current) == 0)
 	{ /* Leaf - Node Just Delete It */
 		free(current);
-		current = NULL;
+		if (parent->key > key)
+			parent->leftChild = NULL;
+		else
+			parent->rightChild = NULL;
 	}
 	else if (checkChild(current) == 1)
 	{
 		if (current->leftChild)
 		{
-			free(current);
-			current = current->leftChild;
+			sub = current->leftChild;
+			current->leftChild = sub->leftChild;
+			current->rightChild = sub->rightChild;
+			sub->leftChild = current;
+			current = sub;
+
+			Delete(key, current->leftChild);
 		}
-		else if (current->rightChild)
+		else
 		{
-			free(current);
-			current = current->rightChild;
+			sub = current->rightChild;
+			current->leftChild = sub->leftChild;
+			current->rightChild = sub->rightChild;
+			sub->rightChild = current;
+			current = sub;
+
+			Delete(key, current->rightChild);
 		}
 	}
 	else
 	{
 
 	}
+}
+
+void exchangeNode (nodePtr parentNode, nodePtr childNode)
+{
+	parentNode->leftChild = childNode->leftChild;
+	parentNode->rightChild = childNode->rightChild;
+	childNode->leftChild = parentNode;
+	parentNode = childNode;
 }
 
 /*
