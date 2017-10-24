@@ -13,7 +13,7 @@ int main (void) {
 
 	scanf("%d", &n);
 	for (i = 0; i < n; ++ i) {
-	 // Consturct a Graph from given edge's information
+	 // Consturct a Graph from given edge's information Using Adjacency Matrix
 	 // Format : /'U V/' meaning U and V are Adjacent
 		scanf("%d %d", &u, &v);
 
