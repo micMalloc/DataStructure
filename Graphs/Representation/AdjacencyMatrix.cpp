@@ -1,7 +1,7 @@
 #include <cstdio>
 #define MAX 100
 
-int adjacentMatrix[MAX][MAX];
+int adjacencyMatrix[MAX][MAX];
 
 int main (void) {
 	int n;
@@ -19,11 +19,11 @@ int main (void) {
 
 	 // 1 is meaning that the two nodes are adjacent
 		// If a edge is directed edge
-		adjacentMatrix[u][v] = 1;
+		adjacencyMatrix[u][v] = 1;
 
 		// If a edge is undirected edge
-		adjacentMatrix[u][v] = 1;
-		adjacentMatrix[v][u] = 1;
+		adjacencyMatrix[u][v] = 1;
+		adjacencyMatrix[v][u] = 1;
 	}
 
 	return 0;
