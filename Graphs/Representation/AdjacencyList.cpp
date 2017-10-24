@@ -3,6 +3,7 @@
 #define MAX 100
 using namespace std;
 
+// Adjacency List implemented by Vector
 vector<vector<int> > adjList;
 
 int main (void) {
