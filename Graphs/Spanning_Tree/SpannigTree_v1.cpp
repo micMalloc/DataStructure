@@ -1,10 +1,12 @@
 
 /* Implementation of Spanning Tree using DFS */
+
 void spanningTree (int start) {
 	depthFirstSeach(start);
 }
 
 /* Depth-First-Traversal by using Adjacency List */
+
 void depthFirstSeach (int current, int prev) {
 	int next;
 
